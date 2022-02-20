@@ -1,8 +1,9 @@
-import socket
+import socket, time
 
 target = '127.0.0.1'
 port = 8000
 
+#TCP
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 client.connect((target, port))
@@ -16,6 +17,6 @@ else:
 
     response = client.recv(4096)
 
-    print(response)
+    print("Resposta TCP: {}\n".format(response))
 
 exit
