@@ -23,6 +23,14 @@
     .mt-30{
         margin-top:30px;
     }
+
+    #msgErro{
+        display:none;
+        font-weight: bold;
+        color: #ff3e3e;
+        font-family: cursive;
+        font-size: 14px;
+    }
 </style>
 
 <body>
@@ -57,6 +65,7 @@
                             </button>
                         </div>
                     </div>
+                    <span id="msgErro"></span>
                     <div id="response_table"></div>
                 </div>
             </div>
@@ -77,6 +86,8 @@
 
             $('#btnCalcular').click(function(){
                 
+                $("#msgErro").html("").hide();
+
                 var btn = $(this);
 
                 loadButton(btn, "Calculando...");
@@ -88,7 +99,7 @@
                     
                     loadButton(btn, "Calcular", false);
                     if(data.error){
-                        alert(data.msg);
+                        $("#msgErro").html(`Erro: ${data.msg}`).show();
                         return;
                     }
 

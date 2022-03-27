@@ -281,6 +281,40 @@ class Funcoes
 
     }
 
+    public function get_intervalo_hosts_validos(){
+
+        $endereco_rede = $this->arr_ip($this->get_endereco_de_rede());
+        $broadcast = $this->arr_ip($this->get_broadcast());
+
+        $ultimo_octeto_rede = str_split(strrev(str_pad(decbin($endereco_rede[3]), 8, "0", STR_PAD_LEFT)));
+        $ultimo_octeto_broadcast = str_split(strrev(str_pad(decbin($broadcast[3]), 8, "0", STR_PAD_LEFT)));
+
+        $ultimo_octeto_rede_novo = bindec(strrev(implode("", $this->substituir_bit($ultimo_octeto_rede, "0", "1"))));
+        $ultimo_octeto_broadcast_novo = bindec(strrev(implode("", $this->substituir_bit($ultimo_octeto_broadcast, "1", "0"))));
+
+        $endereco_rede[3] = (string) $ultimo_octeto_rede_novo;
+        $broadcast[3] = (string) $ultimo_octeto_broadcast_novo;
+
+        return (object)[
+            "inicio" => implode(".",$endereco_rede),
+            "fim" => implode(".",$broadcast)
+        ];
+
+    }
+
+    private function substituir_bit($arr_bits, $procurando, $trocar_por){
+
+        foreach($arr_bits as $posicao => $bit){
+            if($bit == $procurando){
+                $arr_bits[$posicao] = $trocar_por;
+                break;
+            }
+        }
+
+        return $arr_bits;
+
+    }
+
     public function throw_err($msg = "Não definido")
     {
 

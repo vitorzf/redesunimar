@@ -24,7 +24,20 @@ $endereco_da_rede = $funcoes->get_endereco_de_rede();
 
 $broadcast = $funcoes->get_broadcast();
 
+if($broadcast == $endereco_da_rede){
+    $broadcast = "-";
+}
+
 $ips_disponiveis = $funcoes->get_qtd_ips();
+
+$txt_intervalo_hosts = "-";
+
+if($ips_disponiveis->ips_validos != 0){
+
+    $hosts = $funcoes->get_intervalo_hosts_validos();
+
+    $txt_intervalo_hosts = "{$hosts->inicio} - {$hosts->fim}";
+}
 
 $html = "<table class=\"table\" style=\"width:100%;\">
             <thead class=\"thead-dark\">
@@ -41,14 +54,14 @@ $html = "<table class=\"table\" style=\"width:100%;\">
             </thead>
             <tbody>
                 <tr>
-                    <th>{$dados->ip}/{$dados->mascara}</th>
-                    <th>{$classe_ip}</th>
-                    <th>{$tipo_ip}</th>
-                    <th>{$endereco_da_rede}</th>
-                    <th>{$sub_rede}</th>
-                    <th>{$broadcast}</th>
-                    <th>{$endereco_da_rede} - {$broadcast}</th>
-                    <th>Rede: {$ips_disponiveis->ips_rede} - Válidos: {$ips_disponiveis->ips_validos}</th>
+                    <th class=\"text-center\">{$dados->ip}/{$dados->mascara}</th>
+                    <th class=\"text-center\">{$classe_ip}</th>
+                    <th class=\"text-center\">{$tipo_ip}</th>
+                    <th class=\"text-center\">{$endereco_da_rede}</th>
+                    <th class=\"text-center\">{$sub_rede}</th>
+                    <th class=\"text-center\">{$broadcast}</th>
+                    <th class=\"text-center\">{$txt_intervalo_hosts}</th>
+                    <th class=\"text-center\">Rede: {$ips_disponiveis->ips_rede} - Válidos: {$ips_disponiveis->ips_validos}</th>
                 </tr>
             </tbody>
         </table>";
