@@ -1,5 +1,6 @@
 import socket
 import threading
+import json
 from urllib.parse import urlparse
 
 bind_ip = '127.0.0.1'
@@ -14,15 +15,16 @@ Content-Length: {size}
 """
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#Por algum motivo tive que comentar a linha de reutilizar a porta por conta do meu python não estar aceitando, caso ocorra o mesmo so comentar a linha abaixo
-server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+#Por algum motivo tive que comentar a linha de reutilizar a porta por conta do meu python não estar aceitando
+#¯\_(ツ)_/¯
+
+# server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 server.bind((bind_ip, bind_port))
 server.listen(5)
 
-print('Servidor iniciado no IP e Porta: {}:{}'.format(bind_ip, bind_port))
+print('Escutando IP e Porta: {}:{}'.format(bind_ip, bind_port))
 
 def handle_client_connection(client_socket):
     request = client_socket.recv(4096).decode()
